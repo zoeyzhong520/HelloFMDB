@@ -90,7 +90,7 @@ extension FMDBView {
             self.model = [model]
         }
         let indexPath = IndexPath(row: 0, section: 0)
-        tableView.insertRows(at: [indexPath], with: .right)
+        tableView.insertRows(at: [indexPath], with: .left)
         tableView.endUpdates()
     }
 }
