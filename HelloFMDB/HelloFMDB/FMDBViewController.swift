@@ -63,14 +63,15 @@ extension FMDBViewController {
         //设置导航栏
         self.title = "FMDB"
         isDBOpened = false
+        view.backgroundColor = RGB(244, 244, 244)
         
         //FMDBView
         view.addSubview(fmdbView)
         
-//        let leftBarBtn = UIButton(type: .system)
-//        leftBarBtn.setTitle("删除", for: .normal)
-//        leftBarBtn.addTarget(self, action: #selector(leftBarBtnAction), for: .touchUpInside)
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftBarBtn)
+        let leftBarBtn = UIButton(type: .system)
+        leftBarBtn.setTitle("编辑", for: .normal)
+        leftBarBtn.addTarget(self, action: #selector(leftBarBtnAction(btn:)), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftBarBtn)
         
         let rightBarBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(rightBarBtnAction))
         self.navigationItem.rightBarButtonItem = rightBarBtn
@@ -78,7 +79,7 @@ extension FMDBViewController {
         //创建数据库
         let createDBBtn = UIButton(type: .system)
         createDBBtn.setTitleColor(UIColor.gray, for: .normal)
-        createDBBtn.backgroundColor = UIColor.white
+        createDBBtn.backgroundColor = RGB(244, 244, 244)
         createDBBtn.frame = CGRect(x: 0, y: view.bounds.size.height - 60, width: screenWidth / 3, height: 60)
         createDBBtn.setTitle("打开数据库", for: .normal)
         createDBBtn.addTarget(self, action: #selector(createDBBtnAction(btn:)), for: .touchUpInside)
@@ -87,7 +88,7 @@ extension FMDBViewController {
         
         //查询按钮
         let selectBtn = UIButton(type: .system)
-        selectBtn.backgroundColor = UIColor.white
+        selectBtn.backgroundColor = RGB(244, 244, 244)
         selectBtn.frame = CGRect(x: createDBBtn.frame.maxX, y: view.bounds.size.height - 60, width: screenWidth / 3, height: 60)
         selectBtn.setTitle("查询数据库", for: .normal)
         selectBtn.addTarget(self, action: #selector(selectBtnAction), for: .touchUpInside)
@@ -95,7 +96,7 @@ extension FMDBViewController {
         
         //删除按钮
         let deleteBtn = UIButton(type: .system)
-        deleteBtn.backgroundColor = UIColor.white
+        deleteBtn.backgroundColor = RGB(244, 244, 244)
         deleteBtn.frame = CGRect(x: selectBtn.frame.maxX, y: view.bounds.size.height - 60, width: screenWidth / 3, height: 60)
         deleteBtn.setTitle("删除数据库", for: .normal)
         deleteBtn.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
@@ -116,25 +117,21 @@ extension FMDBViewController {
     }
     
     //MARK: - 点击按钮的Action
-    @objc fileprivate func leftBarBtnAction() {
-        //删除数据
-        FMDBHelper.shareInstance.deleteByNameQueue(name: deleteName)
+    @objc fileprivate func leftBarBtnAction(btn: UIButton) {
+        //编辑数据
+        if fmdbView.tableView.isEditing == true {
+            btn.setTitle("编辑", for: .normal)
+            fmdbView.tableView.setEditing(false, animated: true)
+        }else{
+            btn.setTitle("取消", for: .normal)
+            fmdbView.tableView.setEditing(true, animated: true)
+        }
     }
     
     @objc fileprivate func rightBarBtnAction() {
         if isDBOpened == true {
             //添加数据
-            insertID = Int(arc4random() % 1000)
-            print("insertID: \(insertID)")
-            
-            if FMDBHelper.shareInstance.selectByConditionQueue(condition: "select * from t_student where id = ?;", studentId: insertID) == nil {
-                FMDBHelper.shareInstance.insertQueue(studentID: insertID, name: insertName, sex: insertSex, age: insertAge)
-//                self.alert(title: "提示", message: "添加数据成功！", duration: 1.0)
-            }
-            
-            //FMDBView model 添加数据
-            let insertModel = Student.create(studentID: insertID, name: insertName, sex: insertSex, age: insertAge)
-            fmdbView.insertRow(model: insertModel)
+            self.fmdbView.insertRow()
         }else{
             self.alert(title: "提示", message: "请先打开数据库！", duration: 1.5)
         }

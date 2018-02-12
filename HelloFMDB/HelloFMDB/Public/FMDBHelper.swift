@@ -193,7 +193,7 @@ class FMDBHelper: NSObject {
     func deleteByIDQueue(studentID: Int) {
         self.queue?.inDatabase({ (db) in
             do {
-                try db.executeUpdate("delete from t_student where id = ?;", values: [studentID])
+                try db.executeUpdate("delete from t_student where studentID = ?;", values: [studentID])
             } catch let error {
                 print("failed: \(error.localizedDescription)")
             }
