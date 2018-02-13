@@ -31,10 +31,10 @@ class FMDBTableViewCell: UITableViewCell {
         let age:Int = model?.age == nil ? 0 : (model?.age)!
         
         let titleLabel = UILabel()
-        titleLabel.frame = CGRect(x: 0, y: 0, width: self.contentView.bounds.size.width, height: self.contentView.bounds.size.height - 1)
-        titleLabel.text = "\(studentID)      " + name! + "      " + sex! + "      " + "  \(age)"
+        titleLabel.frame = CGRect(x: 60, y: 0, width: self.contentView.bounds.size.width - 60, height: self.contentView.bounds.size.height - 1)
+        titleLabel.text = "\(studentID)" + name! + sex! + "\(age)"
         titleLabel.textColor = UIColor.black
-        titleLabel.textAlignment = .center
+        titleLabel.textAlignment = .left
         self.contentView.addSubview(titleLabel)
         
         //LineView

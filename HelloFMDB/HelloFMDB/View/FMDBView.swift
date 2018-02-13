@@ -19,6 +19,24 @@ class FMDBView: UIView {
     ///添加的年龄
     var insertAge = 12
     
+    ///Delete Array
+    var deleteArray = [Student]()
+    
+    ///deleteNumDidChangeBlock
+    var deleteNumDidChangeBlock:((Int?) -> Void)?
+    
+    ///cellJumpClosure
+    var cellJumpClosure:((Student) -> Void)?
+    
+    ///Delete Num
+    var deleteNum:Int? {
+        didSet {
+            if deleteNumDidChangeBlock != nil {
+                deleteNumDidChangeBlock!(deleteNum)
+            }
+        }
+    }
+    
     ///model
     var model:[Student]? {
         didSet {
@@ -29,7 +47,7 @@ class FMDBView: UIView {
     //MARK: Lazy
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: self.bounds, style: .plain)
-        tableView.allowsMultipleSelectionDuringEditing = true //开启多选
+//        tableView.allowsMultipleSelectionDuringEditing = true //开启多选
         tableView.separatorStyle = .none
         tableView.rowHeight = 60
         tableView.delegate = self
@@ -83,8 +101,40 @@ extension FMDBView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-        
+        if tableView.isEditing {
+            if let tmpStudentModel = self.model?[indexPath.row] {
+                self.deleteArray.append(tmpStudentModel)
+                if var tmpDeleteNum = self.deleteNum {
+                    tmpDeleteNum += 1
+                    self.deleteNum = tmpDeleteNum
+                }else{
+                    self.deleteNum = 1
+                }
+            }
+        }else{
+            tableView.deselectRow(at: indexPath, animated: true)
+            if cellJumpClosure != nil {
+                if let tmpStudentModel = self.model?[indexPath.row] {
+                    cellJumpClosure!(tmpStudentModel)
+                }
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView.isEditing {
+            if let tmpStudentModel = self.model?[indexPath.row] {
+                let tmpDeleteArray = NSMutableArray(array: deleteArray)
+                tmpDeleteArray.remove(tmpStudentModel)
+                deleteArray = tmpDeleteArray as! [Student]
+                if var tmpDeleteNum = self.deleteNum {
+                    tmpDeleteNum -= 1
+                    self.deleteNum = tmpDeleteNum
+                }else{
+                    self.deleteNum = 1
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -100,7 +150,11 @@ extension FMDBView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.init(rawValue: UITableViewCellEditingStyle.delete.rawValue | UITableViewCellEditingStyle.insert.rawValue)!
+        if tableView.isEditing {
+            return UITableViewCellEditingStyle.init(rawValue: UITableViewCellEditingStyle.delete.rawValue | UITableViewCellEditingStyle.insert.rawValue)!
+        }else{
+            return .delete
+        }
     }
 }
 
@@ -132,6 +186,36 @@ extension FMDBView {
         tableView.endUpdates()
         
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true) //滚动到顶部
+    }
+    
+    ///Select All Rows
+    func selectAllRows() {
+        if let cnt = model?.count {
+            for i in 0..<cnt {
+                let indexPath = IndexPath(row: i, section: 0)
+                tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                let tmpDeleteArray = NSMutableArray(array: deleteArray)
+                tmpDeleteArray.addObjects(from: model!)
+                deleteArray = tmpDeleteArray as! [Student]
+                deleteNum = cnt
+            }
+        }
+    }
+    
+    ///Delete Rows
+    func deleteRows() {
+        if model == nil {
+            return
+        }
+        for i in 0..<deleteArray.count {
+            //从数据库删除
+            if let studentID = deleteArray[i].studentID {
+                FMDBHelper.shareInstance.deleteByIDQueue(studentID: studentID)
+            }
+        }
+        model = Array(Set(model!).subtracting(Set(deleteArray)))
+        deleteArray.removeAll()
+        deleteNum = 0
     }
 }
 

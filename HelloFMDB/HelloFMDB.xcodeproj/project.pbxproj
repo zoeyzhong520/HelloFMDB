@@ -12,6 +12,7 @@
 		D81BFDD620315BAD00080A71 /* UIViewController+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BFDD520315BAD00080A71 /* UIViewController+Util.swift */; };
 		D81BFDD92031803F00080A71 /* FMDBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BFDD82031803F00080A71 /* FMDBView.swift */; };
 		D81BFDDB2031817300080A71 /* FMDBTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BFDDA2031817300080A71 /* FMDBTableViewCell.swift */; };
+		D87490242032ACDB00E0B794 /* FMDBDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87490232032ACDB00E0B794 /* FMDBDetailViewController.swift */; };
 		D8DA319320302E9A007C0C86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DA319220302E9A007C0C86 /* AppDelegate.swift */; };
 		D8DA319520302E9A007C0C86 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DA319420302E9A007C0C86 /* ViewController.swift */; };
 		D8DA319820302E9A007C0C86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8DA319620302E9A007C0C86 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 		D81BFDD520315BAD00080A71 /* UIViewController+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Util.swift"; sourceTree = "<group>"; };
 		D81BFDD82031803F00080A71 /* FMDBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDBView.swift; sourceTree = "<group>"; };
 		D81BFDDA2031817300080A71 /* FMDBTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDBTableViewCell.swift; sourceTree = "<group>"; };
+		D87490232032ACDB00E0B794 /* FMDBDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDBDetailViewController.swift; sourceTree = "<group>"; };
 		D8DA318F20302E9A007C0C86 /* HelloFMDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloFMDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8DA319220302E9A007C0C86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8DA319420302E9A007C0C86 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				D8DA31C020302EB1007C0C86 /* HelloFMDB-Bridging-Header.h */,
 				D81BFDD020312C9D00080A71 /* BaseViewController.swift */,
 				D81BFDD220312D7300080A71 /* FMDBViewController.swift */,
+				D87490232032ACDB00E0B794 /* FMDBDetailViewController.swift */,
 			);
 			path = HelloFMDB;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				D8DA31D220302EDE007C0C86 /* FMDatabase.m in Sources */,
 				D81BFDD120312C9D00080A71 /* BaseViewController.swift in Sources */,
 				D81BFDD320312D7300080A71 /* FMDBViewController.swift in Sources */,
+				D87490242032ACDB00E0B794 /* FMDBDetailViewController.swift in Sources */,
 				D8DA319520302E9A007C0C86 /* ViewController.swift in Sources */,
 				D8DA31E12030419D007C0C86 /* Student.swift in Sources */,
 				D81BFDD620315BAD00080A71 /* UIViewController+Util.swift in Sources */,
